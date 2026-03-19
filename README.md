@@ -1,6 +1,6 @@
 # Document Intelligence API
 
-[![CI](https://github.com/YOUR_USERNAME/doc-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/doc-intelligence/actions/workflows/ci.yml)
+[![CI](https://github.com/subramanyapuneeth530/doc-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/subramanyapuneeth530/doc-intelligence/actions/workflows/ci.yml)
 
 A fully local RAG (Retrieval Augmented Generation) system. Upload PDF or TXT documents, ask questions in natural language, and get answers grounded in your documents — with source references. No API keys required.
 
@@ -32,7 +32,7 @@ Question → Embeddings → Similarity Search → Top-K Chunks → Llama 3.2 →
 
 ### 1. Clone and start
 ```bash
-git clone https://github.com/YOUR_USERNAME/doc-intelligence.git
+git clone https://github.com/subramanyapuneeth530/doc-intelligence.git
 cd doc-intelligence
 docker-compose up --build
 ```
