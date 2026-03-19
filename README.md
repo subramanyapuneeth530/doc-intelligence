@@ -4,6 +4,10 @@
 
 A fully local RAG (Retrieval Augmented Generation) system. Upload PDF or TXT documents, ask questions in natural language, and get answers grounded in your documents — with source references. No API keys required.
 
+![Document Intelligence UI](docs/screenshot.png)
+
+---
+
 ## Architecture
 
 ```
@@ -20,9 +24,12 @@ Question → Embeddings → Similarity Search → Top-K Chunks → Llama 3.2 →
 | Embeddings | all-MiniLM-L6-v2 (HuggingFace, local) |
 | Vector DB | ChromaDB |
 | API | FastAPI |
+| UI | Streamlit |
 | Containerisation | Docker + Docker Compose |
 | CI/CD | GitHub Actions |
 | Testing | pytest |
+
+---
 
 ## Quickstart
 
@@ -36,49 +43,44 @@ git clone https://github.com/subramanyapuneeth530/doc-intelligence.git
 cd doc-intelligence
 docker-compose up --build
 ```
-First run takes 5–10 minutes (downloads Ollama image + builds API image).
+
+First run takes 5–10 minutes (downloads Ollama image + builds API and frontend images).
 
 ### 2. Pull the LLM model (one-time, in a new terminal)
 ```bash
 docker exec doc-intel-ollama ollama pull llama3.2
 ```
 
-### 3. Use the API
-API docs available at: http://localhost:8000/docs
-
-**Upload a document:**
-```bash
-curl -X POST http://localhost:8000/ingest \
-  -F "file=@your_document.pdf"
+### 3. Open the UI
+```
+http://localhost:8501
 ```
 
-**Ask a question:**
-```bash
-curl -X POST http://localhost:8000/query \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What is this document about?"}'
-```
+Upload a PDF or TXT file from the sidebar, then ask any question about it.
 
-**List indexed documents:**
-```bash
-curl http://localhost:8000/sources
-```
+---
 
-**Delete a document:**
-```bash
-curl -X DELETE http://localhost:8000/source/your_document.pdf
-```
+## Services
+
+| Service | URL | Description |
+|---|---|---|
+| Streamlit UI | http://localhost:8501 | User-facing interface |
+| FastAPI docs | http://localhost:8000/docs | REST API (Swagger UI) |
+| Ollama | http://localhost:11434 | Local LLM server |
+
+---
 
 ## API Endpoints
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | `/` | Health check |
 | GET | `/health` | Health check |
 | POST | `/ingest` | Upload and index a PDF or TXT file |
 | POST | `/query` | Ask a question, get answer + sources |
 | GET | `/sources` | List all indexed documents |
 | DELETE | `/source/{filename}` | Remove a document from the index |
+
+---
 
 ## Running locally without Docker
 
@@ -91,8 +93,11 @@ python -m venv .venv
 .venv\Scripts\activate      # Windows
 pip install -r requirements.txt
 
-# Run the API
+# Terminal 1 — run the API
 uvicorn app.main:app --reload
+
+# Terminal 2 — run the UI
+streamlit run frontend.py
 ```
 
 ## Running tests
