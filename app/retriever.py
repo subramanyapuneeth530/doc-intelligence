@@ -1,9 +1,11 @@
+import logging
 import os
 import time
-import logging
-from langchain_ollama import OllamaLLM
+
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
+from langchain_ollama import OllamaLLM
+
 from app.ingest import get_vectorstore
 
 logger = logging.getLogger(__name__)

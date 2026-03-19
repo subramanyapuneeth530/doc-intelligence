@@ -1,14 +1,19 @@
+import logging
 import os
 import shutil
-import logging
 import tempfile
-from fastapi import FastAPI, UploadFile, File, HTTPException
+
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.ingest import delete_source, ingest_file, list_sources
 from app.models import (
-    IngestResponse, QueryRequest, QueryResponse,
-    SourcesResponse, DeleteResponse,
+    DeleteResponse,
+    IngestResponse,
+    QueryRequest,
+    QueryResponse,
+    SourcesResponse,
 )
-from app.ingest import ingest_file, list_sources, delete_source
 from app.retriever import answer_question
 
 logging.basicConfig(
